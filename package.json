@@ -1,0 +1,41 @@
+{
+  "name": "boilerplator",
+  "version": "0.1.0",
+  "description": "Quickly creates projects from a boilerplate projects.",
+  "main": "index.js",
+  "author": "DaCurse",
+  "license": "GPL-3.0",
+  "scripts": {
+    "format": "prettier --write \"**/*.js\""
+  },
+  "bin": {
+    "boil": "./index.js"
+  },
+  "dependencies": {
+    "commander": "^6.1.0",
+    "cosmiconfig": "^7.0.0",
+    "is-regex": "^1.1.1",
+    "recursive-copy": "^2.0.11",
+    "rimraf": "^3.0.2",
+    "simple-git": "^2.20.1",
+    "through2": "^4.0.2",
+    "tree-node-cli": "^1.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.10.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.3.0",
+    "jest": "^26.4.2",
+    "prettier": "^2.1.2",
+    "pretty-quick": "^3.0.2"
+  },
+  "eslintIgnore": [
+    "node_modules"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged",
+      "pre-push": "eslint \"**/*.js\""
+    }
+  }
+}
