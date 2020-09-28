@@ -2,15 +2,15 @@ const { cosmiconfigSync } = require('cosmiconfig');
 const { homedir } = require('os');
 const { writeFileSync } = require('fs');
 const { join } = require('path');
-const { name } = require('../package.json');
+const { name } = require('../../package.json');
 
 const defaultFilename = `.${name}rc`;
 
 const defaultConfig = {
   templateFolder: '',
-  createRepository: false,
-  defaultPlaceholders: {},
   placeholderRegex: '{{([\\w-_]+)}}',
+  defaultPlaceholders: {},
+  gitOptions: { createRepository: false },
 };
 
 /**

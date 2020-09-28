@@ -1,20 +1,28 @@
 {
   "name": "boilerplator",
-  "version": "0.1.0",
-  "description": "Quickly creates projects from a boilerplate projects.",
+  "version": "0.2.0",
+  "description": "Quickly and dynamically generates projects from pre-defined templates.",
   "main": "index.js",
   "author": "DaCurse",
   "license": "GPL-3.0",
   "scripts": {
-    "format": "prettier --write \"**/*.js\""
+    "format": "prettier --write \"{src,tests,bin}/**/*.js\"",
+    "lint": "eslint \"{src,tests,bin}/**/*.js\""
   },
   "bin": {
-    "boil": "./index.js"
+    "boil": "./bin/cli.js"
   },
+  "keywords": [
+    "cli",
+    "templates",
+    "generator",
+    "boilerplate"
+  ],
   "dependencies": {
     "commander": "^6.1.0",
     "cosmiconfig": "^7.0.0",
     "is-regex": "^1.1.1",
+    "pretty-ms": "^7.0.1",
     "recursive-copy": "^2.0.11",
     "rimraf": "^3.0.2",
     "simple-git": "^2.20.1",
@@ -26,16 +34,14 @@
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.3.0",
     "jest": "^26.4.2",
-    "prettier": "^2.1.2",
-    "pretty-quick": "^3.0.2"
+    "prettier": "^2.1.2"
   },
   "eslintIgnore": [
     "node_modules"
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged",
-      "pre-push": "eslint \"**/*.js\""
+      "pre-commit": "npm run format && npm run lint"
     }
   }
 }
