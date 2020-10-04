@@ -3,6 +3,7 @@ const { writeFileSync, mkdirSync } = require('fs');
 const { join } = require('path');
 const { name } = require('../../package.json');
 const configDir = require('./config-dir');
+const dirExists = require('./dir-exists');
 
 const defaultFilename = `.${name}rc`;
 
@@ -21,12 +22,16 @@ module.exports = (baseDir = join(configDir(), name)) => {
   const result = explorer.search(baseDir);
 
   if (!result || result.isEmpty) {
-    mkdirSync(baseDir);
+    if (!dirExists(baseDir)) {
+      mkdirSync(baseDir);
+    }
     const filepath = join(baseDir, defaultFilename);
+
     console.info(
       `Config file not found! Creating default config at ${filepath}.`
     );
     writeFileSync(filepath, JSON.stringify(defaultConfig, null, 2));
+
     return { config: defaultConfig, filepath };
   }
 
