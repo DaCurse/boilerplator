@@ -8,7 +8,6 @@ program
   .description(description)
   .usage('templateName -d <destination> [options] [placeholder1=...,]')
   .requiredOption('-d, --destination <path>', 'destination directory')
-  .option('-f, --force', 'overwrite existing directory')
-  .parse(process.argv);
+  .option('-f, --force', 'overwrite existing directory');
 
 module.exports = program;

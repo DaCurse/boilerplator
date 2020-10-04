@@ -13,6 +13,7 @@ const generateProject = require('../src');
 
 // Start measuring time
 const startTime = Date.now();
+program.parse(process.argv);
 console.info(`${program.name()} v${program.version()}`);
 
 // Load config and validate contents
