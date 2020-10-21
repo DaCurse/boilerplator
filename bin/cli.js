@@ -3,11 +3,11 @@
 const { mkdirSync } = require('fs');
 const { resolve, dirname } = require('path');
 const { sync: rimraf } = require('rimraf');
+const { isDirectorySync } = require('path-type');
 const isRegex = require('is-regex');
 const prettyMilliseconds = require('pretty-ms');
 const program = require('../src/program');
-const loadConfig = require('../src/util/load-config');
-const dirExists = require('../src/util/dir-exists');
+const { loadConfig } = require('../src/util/config');
 const parseArgs = require('../src/util/parse-args');
 const generateProject = require('../src');
 
@@ -18,7 +18,7 @@ console.info(`${program.name()} v${program.version()}`);
 
 // Load config and validate contents
 const { config, filepath: configPath } = loadConfig();
-if (!config.templateFolder || !dirExists(config.templateFolder)) {
+if (!config.templateFolder || !isDirectorySync(config.templateFolder)) {
   console.error(`Template folder specified in ${configPath} not found!`);
   process.exit(1);
 }
@@ -29,7 +29,7 @@ if (program.args.length < 1) {
 }
 
 // Validate destination
-if (!dirExists(program.destination)) {
+if (!isDirectorySync(program.destination)) {
   try {
     mkdirSync(program.destination, { recursive: true });
   } catch (error) {
@@ -56,7 +56,7 @@ const templatePath = resolve(
   config.templateFolder,
   templateName
 );
-if (!dirExists(templatePath)) {
+if (!isDirectorySync(templatePath)) {
   console.error(`Template '${templateName}' doesn't exist in ${templatePath}.`);
   process.exit(1);
 }

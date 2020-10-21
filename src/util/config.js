@@ -1,10 +1,11 @@
 const { cosmiconfigSync } = require('cosmiconfig');
 const { writeFileSync, mkdirSync } = require('fs');
 const { join } = require('path');
+const { isDirectorySync } = require('path-type');
 const { name } = require('../../package.json');
 const configDir = require('./config-dir');
-const dirExists = require('./dir-exists');
 
+// Default config filename
 const defaultFilename = `.${name}rc`;
 
 const defaultConfig = {
@@ -15,14 +16,14 @@ const defaultConfig = {
 };
 
 /**
- * Loads config from a dotfile and merges `defaultConfig`
+ * Loads config from a dotfile in `baseDir` and merges `defaultConfig`
  */
-module.exports = (baseDir = join(configDir(), name)) => {
+function loadConfig(baseDir = join(configDir(), name)) {
   const explorer = cosmiconfigSync(name);
   const result = explorer.search(baseDir);
 
   if (!result || result.isEmpty) {
-    if (!dirExists(baseDir)) {
+    if (!isDirectorySync(baseDir)) {
       mkdirSync(baseDir);
     }
     const filepath = join(baseDir, defaultFilename);
@@ -36,4 +37,10 @@ module.exports = (baseDir = join(configDir(), name)) => {
   }
 
   return { ...result, config: { ...defaultConfig, ...result.config } };
+}
+
+module.exports = {
+  defaultFilename,
+  defaultConfig,
+  loadConfig,
 };
