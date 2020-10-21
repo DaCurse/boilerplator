@@ -1,4 +1,4 @@
-const through = require('through2');
+const { Transform } = require('stream');
 const applyPlaceholders = require('./apply-placeholders');
 
 /**
@@ -9,13 +9,15 @@ const applyPlaceholders = require('./apply-placeholders');
  * @see applyPlaceholders
  */
 module.exports = (placeholders, placeholderRegex) => () =>
-  through((chunk, _encoding, done) => {
-    // Replace all placeholders with their value
-    const data = applyPlaceholders(
-      placeholders,
-      placeholderRegex,
-      chunk.toString()
-    );
+  new Transform({
+    transform(chunk, _encoding, done) {
+      // Replace all placeholders with their value
+      const data = applyPlaceholders(
+        placeholders,
+        placeholderRegex,
+        chunk.toString()
+      );
 
-    done(null, data);
+      done(null, data);
+    },
   });
