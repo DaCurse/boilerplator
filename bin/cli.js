@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { mkdirSync } = require('fs');
-const { resolve, dirname } = require('path');
+const { resolve, dirname, join } = require('path');
 const { sync: rimraf } = require('rimraf');
 const { isDirectorySync } = require('path-type');
 const isRegex = require('is-regex');
@@ -17,9 +17,15 @@ program.parse(process.argv);
 console.info(`${program.name()} v${program.version()}`);
 
 // Load config and validate contents
-const { config, filepath: configPath } = loadConfig();
-if (!config.templateFolder || !isDirectorySync(config.templateFolder)) {
-  console.error(`Template folder specified in ${configPath} not found!`);
+const { config, filepath: configPath } = loadConfig(program.config);
+// Get absolute path for template directory if a relative one is provided in the
+// config file.
+const templateDirectoryPath = resolve(
+  dirname(configPath),
+  config.templateDirectory
+);
+if (!config.templateDirectory || !isDirectorySync(templateDirectoryPath)) {
+  console.error(`Template directory specified in ${configPath} not found!`);
   process.exit(1);
 }
 
@@ -46,16 +52,10 @@ if (!isDirectorySync(program.destination)) {
   process.exit(1);
 }
 
+// Finding the selected template's directory
 const templateName = program.args.shift();
 console.info(`Finding template '${templateName}'...`);
-// Find template folder path, starting from config file's directory to account
-// for relative paths. If `config.templateFolder` is an absolute path then the
-// first argument will be omitted.
-const templatePath = resolve(
-  dirname(configPath),
-  config.templateFolder,
-  templateName
-);
+const templatePath = join(templateDirectoryPath, templateName);
 if (!isDirectorySync(templatePath)) {
   console.error(`Template '${templateName}' doesn't exist in ${templatePath}.`);
   process.exit(1);

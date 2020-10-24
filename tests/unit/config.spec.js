@@ -46,7 +46,7 @@ describe('util/config.js', () => {
   describe('valid config file present', () => {
     beforeAll(() => {
       this.configMock = {
-        templateFolder: '/template-folder',
+        templateDirectory: '/template-directory',
         defaultPlaceholders: { foo: 'bar' },
         gitOptions: { createRepository: true },
       };
@@ -61,8 +61,10 @@ describe('util/config.js', () => {
       this.config = loadConfig(configDir).config;
     });
 
-    it('should return templateFolder from config', () => {
-      expect(this.config.templateFolder).toBe(this.configMock.templateFolder);
+    it('should return templateDirectory from config', () => {
+      expect(this.config.templateDirectory).toBe(
+        this.configMock.templateDirectory
+      );
     });
 
     it('should merge default options which are not present', () => {
@@ -75,6 +77,25 @@ describe('util/config.js', () => {
       expect(this.config.defaultPlaceholders).not.toEqual(
         defaultConfig.defaultPlaceholders
       );
+    });
+  });
+
+  describe('direct config file path provided', () => {
+    beforeAll(() => {
+      this.configMock = { foo: 'bar' };
+      const vol = Volume.fromJSON(
+        {
+          'config.json': JSON.stringify(this.configMock),
+        },
+        '/'
+      );
+      fs.use(vol);
+
+      this.config = loadConfig('/config.json').config;
+    });
+
+    it('should return the correct config', () => {
+      expect(this.config).toEqual(this.configMock);
     });
   });
 });

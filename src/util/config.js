@@ -1,7 +1,7 @@
 const { cosmiconfigSync } = require('cosmiconfig');
 const { writeFileSync, mkdirSync } = require('fs');
 const { join } = require('path');
-const { isDirectorySync } = require('path-type');
+const { isDirectorySync, isFileSync } = require('path-type');
 const { name } = require('../../package.json');
 const configDir = require('./config-dir');
 
@@ -9,24 +9,31 @@ const configDir = require('./config-dir');
 const defaultFilename = `.${name}rc`;
 
 const defaultConfig = {
-  templateFolder: '',
+  templateDirectory: '',
   placeholderRegex: '{{([\\w-_]+)}}',
   defaultPlaceholders: {},
   gitOptions: { createRepository: false },
 };
 
 /**
- * Loads config from a dotfile in `baseDir` and merges `defaultConfig`
+ * Loads config from a dotfile in `basePath` and merges `defaultConfig`. If
+ * `basePath` is a file, it will try to load the config from it
  */
-function loadConfig(baseDir = join(configDir(), name)) {
+function loadConfig(basePath = join(configDir(), name)) {
   const explorer = cosmiconfigSync(name);
-  const result = explorer.search(baseDir);
+  // Check if a config file is provided
+  if (isFileSync(basePath)) {
+    return explorer.load(basePath);
+  }
+
+  // Otherwise search for it in the provided directory
+  const result = explorer.search(basePath);
 
   if (!result || result.isEmpty) {
-    if (!isDirectorySync(baseDir)) {
-      mkdirSync(baseDir);
+    if (!isDirectorySync(basePath)) {
+      mkdirSync(basePath);
     }
-    const filepath = join(baseDir, defaultFilename);
+    const filepath = join(basePath, defaultFilename);
 
     console.info(
       `Config file not found! Creating default config at ${filepath}.`
