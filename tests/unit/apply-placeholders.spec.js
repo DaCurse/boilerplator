@@ -13,22 +13,12 @@ describe('util/apply-placeholders.js', () => {
     expect(output).toBe('Hello World!');
   });
 
-  const consoleOutput = [];
-  const originalWarn = console.warn;
-  const mockedWarn = (output) => consoleOutput.push(output);
-
-  beforeEach(() => (console.warn = mockedWarn));
-  afterEach(() => (console.warn = originalWarn));
-
   it('should warn about missing placeholder', () => {
+    console.warn = jest.fn();
     const str = '{{greeting}}';
     const placeholders = new Map();
     applyPlaceholders(placeholders, placeholderRegex, str);
 
-    expect(consoleOutput).toEqual(
-      expect.arrayContaining([
-        expect.stringContaining('No value provided for placeholder'),
-      ])
-    );
+    expect(console.warn).toBeCalled();
   });
 });
