@@ -1,0 +1,4 @@
+{
+  "templateDirectory": "./templates",
+  "placeholderRegex": "{{([\\w-_]+)}}"
+}
