@@ -5,6 +5,8 @@ const { isFileSync } = require('path-type');
 const rimraf = require('rimraf');
 const simpleGit = require('simple-git');
 
+const script = 'bin/boil-generate';
+
 /**
  * Serializes `placeholders` into a string for the CLI script
  * @param {object} placeholders
@@ -24,7 +26,7 @@ function serializePlaceholders(placeholders) {
  * @param {object} placeholders Placeholder object to serialize
  */
 function execScript(template, dest, config, placeholders) {
-  const scriptPath = join(process.cwd(), 'bin/cli.js');
+  const scriptPath = join(process.cwd(), script);
   execSync(
     `node ${scriptPath} ${template} -d ${dest} --config ${config} --force ${serializePlaceholders(
       placeholders
