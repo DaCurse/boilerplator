@@ -8,5 +8,5 @@ const { join } = require('path');
  */
 global.execBinary = (script, args) => {
   const scriptPath = join(process.cwd(), script);
-  execSync(`node ${scriptPath} ${args}`);
+  return execSync(`node ${scriptPath} ${args}`);
 };
