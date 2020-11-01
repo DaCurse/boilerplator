@@ -40,6 +40,11 @@
     "prettier": "^2.1.2",
     "unionfs": "^4.4.0"
   },
+  "jest": {
+    "setupFiles": [
+      "./tests/setup.js"
+    ]
+  },
   "husky": {
     "hooks": {
       "pre-commit": "npm run format && npm run lint"
