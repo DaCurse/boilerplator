@@ -6,7 +6,7 @@ const { name } = require('../../package.json');
 const configDir = require('./config-dir');
 
 // Default config filename
-const defaultFilename = `.${name}rc`;
+const defaultFilename = 'config.json';
 
 const defaultConfig = {
   templateDirectory: '',
@@ -15,12 +15,15 @@ const defaultConfig = {
   gitOptions: { createRepository: false },
 };
 
+// Valid config filenames
+const searchPlaces = ['config.json', 'config.js', 'config.cjs'];
+
 /**
  * Loads config from a dotfile in `basePath` and merges `defaultConfig`. If
  * `basePath` is a file, it will try to load the config from it
  */
 function loadConfig(basePath = join(configDir(), name)) {
-  const explorer = cosmiconfigSync(name);
+  const explorer = cosmiconfigSync(name, { searchPlaces });
   // Check if a config file is provided
   if (isFileSync(basePath)) {
     return explorer.load(basePath);
