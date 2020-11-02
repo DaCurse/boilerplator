@@ -27,7 +27,7 @@ function cleanUp(path, cwd = __dirname) {
   rimraf.sync(join(cwd, path));
 }
 
-describe('e2e test for cli tool', () => {
+describe(script, () => {
   afterEach(() => {
     cleanUp('env/dest/simple');
     cleanUp('env/dest/nested');

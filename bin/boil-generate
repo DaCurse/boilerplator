@@ -30,11 +30,8 @@ console.info(`${program.name()} v${program.version()}`);
 
 // Load config
 const { config, filepath: configPath } = loadConfig(program.config);
-const templateDirectoryPath = templateDirectory(
-  config.templateDirectory,
-  configPath
-);
-if (!templateDirectoryPath) {
+const templateDir = templateDirectory(config.templateDirectory, configPath);
+if (!templateDir) {
   console.error(`Template directory specified in config not found!`);
   process.exit(1);
 }
@@ -65,7 +62,7 @@ if (!isDirectorySync(program.destination)) {
 // Finding the selected template's directory
 const templateName = program.args.shift();
 console.info(`Finding template '${templateName}'...`);
-const templatePath = join(templateDirectoryPath, templateName);
+const templatePath = join(templateDir, templateName);
 if (!isDirectorySync(templatePath)) {
   console.error(`Template '${templateName}' doesn't exist in ${templatePath}.`);
   process.exit(1);

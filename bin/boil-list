@@ -18,25 +18,22 @@ program
 
 // Load config
 const { config, filepath: configPath } = loadConfig(program.config);
-const templateDirectoryPath = templateDirectory(
-  config.templateDirectory,
-  configPath
-);
-if (!templateDirectoryPath) {
+const templateDir = templateDirectory(config.templateDirectory, configPath);
+if (!templateDir) {
   console.error(`Template directory specified in config not found!`);
   process.exit(1);
 }
 
 // Find all directories in the template directory
-const templates = readdirSync(templateDirectoryPath).filter((path) =>
-  isDirectorySync(join(templateDirectoryPath, path))
+const templates = readdirSync(templateDir).filter((path) =>
+  isDirectorySync(join(templateDir, path))
 );
 
 if (templates.length > 0) {
+  const templateList = templates.map((t) => '- ' + t).join('\n');
   console.info(
-    `Found ${templates.length} templates in ${templateDirectoryPath}:`
+    `Found ${templates.length} templates in ${templateDir}:\n${templateList}`
   );
-  console.info(templates.map((t) => '- ' + t).join('\n'));
 } else {
-  console.info(`No templates exist in ${templateDirectoryPath}!`);
+  console.info(`No templates exist in ${templateDir}!`);
 }

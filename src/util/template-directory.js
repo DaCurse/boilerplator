@@ -7,11 +7,11 @@ const { isDirectorySync } = require('path-type');
  * @param {string} templateDirectory Relative/absolute path
  * @param {string} basePath Absolute path if a relative path is provided
  */
-module.exports = (templateDirectory, basePath) => {
-  const templateDirectoryPath = resolve(dirname(basePath), templateDirectory);
-  if (!templateDirectory || !isDirectorySync(templateDirectoryPath)) {
+module.exports = (templateDirPath, basePath) => {
+  const templateDir = resolve(dirname(basePath), templateDirPath);
+  if (!templateDirPath || !isDirectorySync(templateDir)) {
     return null;
   }
 
-  return templateDirectoryPath;
+  return templateDir;
 };
