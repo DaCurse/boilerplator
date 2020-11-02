@@ -8,16 +8,7 @@ const {
   defaultConfig,
 } = require('../../src/util/config');
 
-jest.mock('fs', () => {
-  const fs = jest.requireActual('fs');
-  const { default: unionfs } = require('unionfs');
-
-  unionfs.reset = () => {
-    unionfs.fss = [fs];
-  };
-
-  return unionfs.use(fs);
-});
+jest.mock('fs');
 
 describe('util/config.js', () => {
   const configDir = '/config';

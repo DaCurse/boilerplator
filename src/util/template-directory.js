@@ -1,5 +1,5 @@
 const { resolve, dirname } = require('path');
-const { isDirectorySync } = require('path-type');
+const { isDirectorySync, isFileSync } = require('path-type');
 
 /**
  * Returns absolute path for template directory if a relative path is provided,
@@ -8,7 +8,10 @@ const { isDirectorySync } = require('path-type');
  * @param {string} basePath Absolute path if a relative path is provided
  */
 module.exports = (templateDirPath, basePath) => {
-  const templateDir = resolve(dirname(basePath), templateDirPath);
+  const templateDir = resolve(
+    isFileSync(basePath) ? dirname(basePath) : basePath,
+    templateDirPath
+  );
   if (!templateDirPath || !isDirectorySync(templateDir)) {
     return null;
   }
