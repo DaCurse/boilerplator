@@ -1,5 +1,4 @@
 const { cosmiconfigSync } = require('cosmiconfig');
-const { join } = require('path');
 const { isFileSync } = require('path-type');
 const { name } = require('../../package.json');
 const configDir = require('./config-dir');
@@ -20,7 +19,7 @@ const searchPlaces = ['config.json', 'config.js', 'config.cjs'];
  * Loads config from a dotfile in `basePath` and merges `defaultConfig`. If
  * `basePath` is a file, it will try to load the config from it
  */
-function loadConfig(basePath = join(configDir(), name)) {
+function loadConfig(basePath = configDir()) {
   const explorer = cosmiconfigSync(name, { searchPlaces });
   // Check if a config file is provided
   if (isFileSync(basePath)) {
