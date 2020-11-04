@@ -1,7 +1,6 @@
 const { cosmiconfigSync } = require('cosmiconfig');
-const { writeFileSync, mkdirSync } = require('fs');
 const { join } = require('path');
-const { isDirectorySync, isFileSync } = require('path-type');
+const { isFileSync } = require('path-type');
 const { name } = require('../../package.json');
 const configDir = require('./config-dir');
 
@@ -9,7 +8,6 @@ const configDir = require('./config-dir');
 const defaultFilename = 'config.json';
 
 const defaultConfig = {
-  templateDirectory: '',
   placeholderRegex: '{{([\\w-_]+)}}',
   defaultPlaceholders: {},
   gitOptions: { createRepository: false },
@@ -31,19 +29,8 @@ function loadConfig(basePath = join(configDir(), name)) {
 
   // Otherwise search for it in the provided directory
   const result = explorer.search(basePath);
-
   if (!result || result.isEmpty) {
-    if (!isDirectorySync(basePath)) {
-      mkdirSync(basePath);
-    }
-    const filepath = join(basePath, defaultFilename);
-
-    console.info(
-      `Config file not found! Creating default config at ${filepath}.`
-    );
-    writeFileSync(filepath, JSON.stringify(defaultConfig, null, 2));
-
-    return { config: defaultConfig, filepath };
+    return null;
   }
 
   return { ...result, config: { ...defaultConfig, ...result.config } };

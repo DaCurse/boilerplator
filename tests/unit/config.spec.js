@@ -1,7 +1,6 @@
 const fs = require('fs');
 const { Volume } = require('memfs');
 const { join } = require('path');
-const { isDirectorySync, isFileSync } = require('path-type');
 const {
   loadConfig,
   defaultFilename,
@@ -18,19 +17,10 @@ describe('util/config.js', () => {
     fs.reset();
   });
 
-  describe('no config and no config directory present', () => {
-    beforeAll(() => {
+  describe('no config file present', () => {
+    it('should return a falsy value', () => {
       fs.use(Volume.fromJSON({}, '/'));
-      this.config = loadConfig(configDir).config;
-    });
-
-    it('should create config directory and default config file', () => {
-      expect(isDirectorySync(configDir)).toBe(true);
-      expect(isFileSync(configPath)).toBe(true);
-    });
-
-    it('should return default config', () => {
-      expect(this.config).toEqual(defaultConfig);
+      expect(loadConfig(configDir)).toBeFalsy();
     });
   });
 
@@ -72,21 +62,18 @@ describe('util/config.js', () => {
   });
 
   describe('direct config file path provided', () => {
-    beforeAll(() => {
-      this.configMock = { foo: 'bar' };
+    it('should return the correct config', () => {
+      const configMock = { foo: 'bar' };
       const vol = Volume.fromJSON(
         {
-          'config.json': JSON.stringify(this.configMock),
+          'config.json': JSON.stringify(configMock),
         },
         '/'
       );
       fs.use(vol);
 
-      this.config = loadConfig('/config.json').config;
-    });
-
-    it('should return the correct config', () => {
-      expect(this.config).toEqual(this.configMock);
+      const { config } = loadConfig('/config.json');
+      expect(config).toEqual(configMock);
     });
   });
 });

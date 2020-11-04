@@ -29,7 +29,15 @@ const startTime = Date.now();
 console.info(`${program.name()} v${program.version()}`);
 
 // Load config
-const { config, filepath: configPath } = loadConfig(program.config);
+const result = loadConfig(program.config);
+if (!result) {
+  console.error(
+    "Couldn't find config file! Please run 'boil init' to create one."
+  );
+  process.exit(1);
+}
+
+const { config, filepath: configPath } = result;
 const templateDir = templateDirectory(config.templateDirectory, configPath);
 if (!templateDir) {
   console.error(`Template directory specified in config not found!`);
