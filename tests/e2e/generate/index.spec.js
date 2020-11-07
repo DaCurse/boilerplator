@@ -29,8 +29,8 @@ function cleanUp(path, cwd = __dirname) {
 
 describe(script, () => {
   afterEach(() => {
-    cleanUp('env/dest/simple');
-    cleanUp('env/dest/nested');
+    cleanUp('dest/simple');
+    cleanUp('dest/nested');
   });
 
   it('should create a project from the simple template', () => {
@@ -38,8 +38,8 @@ describe(script, () => {
       p1: 'foo',
       p2: 'bar',
     };
-    const dest = join(__dirname, 'env/dest/simple');
-    const configPath = join(__dirname, 'env/simple.json');
+    const dest = join(__dirname, 'dest/simple');
+    const configPath = join(__dirname, 'simple.json');
     execBinary(
       `simple -d ${dest} --config ${configPath} --force ${serializePlaceholders(
         placeholders
@@ -60,8 +60,8 @@ describe(script, () => {
       foo: '1',
       qux: '2',
     };
-    const dest = join(__dirname, 'env/dest/nested');
-    const configPath = join(__dirname, 'env/nested.json');
+    const dest = join(__dirname, 'dest/nested');
+    const configPath = join(__dirname, 'nested.json');
     execBinary(
       `nested -d ${dest} --config ${configPath} --force ${serializePlaceholders(
         placeholders
@@ -73,7 +73,7 @@ describe(script, () => {
     expect(readFileSync(fileToRead, 'utf-8')).toBe(placeholders.qux);
 
     // Test if git repository was created as configured
-    const { gitOptions } = require('./env/nested.json');
+    const { gitOptions } = require(configPath);
     const git = simpleGit();
     git.cwd(dest);
     const commits = await git.log();

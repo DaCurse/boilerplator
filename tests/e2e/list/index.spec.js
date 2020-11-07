@@ -7,8 +7,8 @@ const execBinary = global.execBinary.bind(null, script);
 
 describe(script, () => {
   it('should list all templates', () => {
-    const configPath = join(__dirname, 'env/simple.json');
-    const templateDir = join(__dirname, 'env/templates');
+    const configPath = join(__dirname, 'config.json');
+    const templateDir = join(__dirname, 'templates');
     const output = execBinary(`--config ${configPath}`).toString();
 
     const templates = readdirSync(templateDir).filter((path) =>
