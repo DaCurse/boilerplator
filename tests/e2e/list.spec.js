@@ -2,7 +2,7 @@ const { readdirSync } = require('fs');
 const { join } = require('path');
 const { isDirectorySync } = require('path-type');
 
-const script = 'bin/boil-list';
+const script = 'bin/boil list';
 const execBinary = global.execBinary.bind(null, script);
 
 describe(script, () => {

@@ -4,7 +4,7 @@ const { isFileSync } = require('path-type');
 const rimraf = require('rimraf');
 const simpleGit = require('simple-git');
 
-const script = 'bin/boil-generate';
+const script = 'bin/boil generate';
 const execBinary = global.execBinary.bind(null, script);
 
 /**

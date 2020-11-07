@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+
+const { Command } = require('commander');
+const { writeFileSync, mkdirSync } = require('fs');
+const { join, resolve } = require('path');
+const { isFileSync } = require('path-type');
+const { defaultConfig, defaultFilename } = require('../src/util/config');
+const configDir = require('../src/util/config-dir');
+
+const program = new Command();
+program
+  .usage('--template-dir <path> [options]')
+  .requiredOption('-t, --template-dir <path>', 'template directory path')
+  .option('-f, --force', 'overwrite existing config')
+  .option('-s, --spaces <number>', 'indendation size', 2, (value) =>
+    parseInt(value, 10)
+  )
+  .parse(process.argv);
+
+const dir = configDir();
+const configPath = join(dir, defaultFilename);
+
+console.log(`Creating default config file...`);
+if (!program.force && isFileSync(configPath)) {
+  console.info(`${configPath} already exists! Use --force to overwrite it.`);
+  process.exit(1);
+}
+
+const config = {
+  templateDirectory: resolve(dir, program.templateDir),
+  ...defaultConfig,
+};
+const content = JSON.stringify(config, null, program.spaces);
+mkdirSync(dir, { recursive: true });
+writeFileSync(configPath, content);
+console.info(`Created config file at ${configPath}\n${content}`);

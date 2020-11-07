@@ -11,6 +11,8 @@ program
   .name(name)
   .version(version)
   .description(description)
+  .command('init', 'creates default config file')
+  .alias('i')
   .command('generate <template>', 'generates a project from a a template')
   .alias('g')
   .command('list', 'lists all templates in template directory');
