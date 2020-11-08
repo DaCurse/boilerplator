@@ -32,6 +32,7 @@ function run({ directory }) {
     process.exit(0);
   }
 
+  // Print config
   const { config, filepath: configPath } = loadConfig();
   console.info(`Config file from ${configPath}:`);
   console.info(JSON.stringify(config, null, 2));

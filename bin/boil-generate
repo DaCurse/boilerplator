@@ -13,7 +13,6 @@ const parseArgs = require('../src/util/parse-args');
 const generateProject = require('../src');
 const commandWrapper = require('../src/errors/command-wrapper');
 
-// Configure sub-command
 const program = new Command();
 program
   .usage('<template> -d <destination> [options] [placeholder1=...,]')
@@ -25,6 +24,8 @@ program
 function run(program) {
   // Start measuring time
   const startTime = Date.now();
+
+  // Loading config and template dir
   const { config, filepath: configPath } = loadConfig(program.config);
   const templateDir = templateDirectory(config.templateDirectory, configPath);
 

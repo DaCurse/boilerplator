@@ -21,13 +21,15 @@ program
   .parse(process.argv);
 
 function run(program) {
+  // Calculate config path
   const dir = program.destination ? program.destination : configDir();
   const configPath = join(dir, defaultFilename);
 
   console.log(`Creating default config file...`);
   if (!program.force && isFileSync(configPath)) {
-    console.info(`${configPath} already exists! Use --force to overwrite it.`);
-    process.exit(1);
+    throw new Error(
+      `${configPath} already exists! Use --force to overwrite it.`
+    );
   }
 
   // Store custom config directory in environment
@@ -38,6 +40,7 @@ function run(program) {
     );
   }
 
+  // Create config file
   const config = {
     templateDirectory: resolve(dir, program.templateDir),
     ...defaultConfig,

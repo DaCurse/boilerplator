@@ -23,6 +23,7 @@ function run(program) {
     isDirectorySync(join(templateDir, path))
   );
 
+  // List templates
   if (templates.length > 0) {
     const templateList = templates.map((t) => '- ' + t).join('\n');
     console.info(
