@@ -15,7 +15,8 @@ program
   .alias('i')
   .command('generate <template>', 'generates a project from a a template')
   .alias('g')
-  .command('list', 'lists all templates in template directory');
+  .command('list', 'lists all templates in template directory')
+  .command('config', 'view or change the config');
 
 program.parse(process.argv);
 
