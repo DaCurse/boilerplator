@@ -16,6 +16,12 @@ describe('util/config-dir.js', () => {
 
   afterAll(() => mockPlatform(originalPlatform));
 
+  it('should return directory from env it exists', () => {
+    process.env.CONFIG_DIR = '/foo';
+    expect(configDir()).toEqual('/foo');
+    delete process.env.CONFIG_DIR;
+  });
+
   it('should return correct directory for Windows', () => {
     mockPlatform('win32');
     expect(configDir()).toBe(join(process.env.APPDATA, name));
