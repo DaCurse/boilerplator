@@ -1,6 +1,7 @@
 const { cosmiconfigSync } = require('cosmiconfig');
 const { isFileSync } = require('path-type');
 const { name } = require('../../package.json');
+const ConfigNotFoundError = require('../errors/ConfigNotFoundError');
 const configDir = require('./config-dir');
 
 // Default config filename
@@ -29,7 +30,7 @@ function loadConfig(basePath = configDir()) {
   // Otherwise search for it in the provided directory
   const result = explorer.search(basePath);
   if (!result || result.isEmpty) {
-    return null;
+    throw new ConfigNotFoundError();
   }
 
   return { ...result, config: { ...defaultConfig, ...result.config } };

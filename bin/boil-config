@@ -4,6 +4,7 @@ const { Command } = require('commander');
 const { resolve, join } = require('path');
 const { loadConfig } = require('../src/util/config');
 const { writeFileSync } = require('fs');
+const commandWrapper = require('../src/errors/command-wrapper');
 
 const program = new Command();
 program
@@ -13,31 +14,25 @@ program
     'set custom directory for the config file or reset it to default',
     (value) => resolve(process.cwd(), value)
   )
+  .action((opts) => commandWrapper(run, opts))
   .parse(process.argv);
 
-// Set a custom config directory or reset it and write changes to .env file
-if (program.directory) {
-  let newEnv;
-  if (typeof program.directory === 'string') {
-    console.info(`Setting config directory to ${program.directory}.`);
-    newEnv = `CONFIG_DIR=${program.directory}`;
-  } else {
-    console.info('Resetting config directory to system default.');
-    newEnv = '';
+function run({ directory }) {
+  // Set a custom config directory or reset it and write changes to .env file
+  if (directory) {
+    let newEnv;
+    if (typeof directory === 'string') {
+      console.info(`Setting config directory to ${directory}.`);
+      newEnv = `CONFIG_DIR=${directory}`;
+    } else {
+      console.info('Resetting config directory to system default.');
+      newEnv = '';
+    }
+    writeFileSync(join(process.cwd(), '.env'), newEnv);
+    process.exit(0);
   }
-  writeFileSync(join(process.cwd(), '.env'), newEnv);
-  process.exit(0);
-}
 
-// Load config
-const result = loadConfig(program.config);
-if (!result) {
-  console.error(
-    "Couldn't find config file! Please run 'boil init' to create one."
-  );
-  process.exit(1);
+  const { config, filepath: configPath } = loadConfig();
+  console.info(`Config file from ${configPath}:`);
+  console.info(JSON.stringify(config, null, 2));
 }
-
-const { config, filepath: configPath } = result;
-console.info(`Config file from ${configPath}:`);
-console.info(JSON.stringify(config, null, 2));

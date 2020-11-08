@@ -16,9 +16,8 @@ program
   .command('generate <template>', 'generates a project from a a template')
   .alias('g')
   .command('list', 'lists all templates in template directory')
-  .command('config', 'view or change the config');
-
-program.parse(process.argv);
+  .command('config', 'view or change the config')
+  .parse(process.argv);
 
 // Figure out the full name of the current sub-command if the current command
 // isn't a help command

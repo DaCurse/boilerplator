@@ -6,6 +6,7 @@ const { isDirectorySync } = require('path-type');
 const { join } = require('path');
 const templateDirectory = require('../src/util/template-directory');
 const { loadConfig } = require('../src/util/config');
+const commandWrapper = require('../src/errors/command-wrapper');
 
 const program = new Command();
 program
@@ -14,26 +15,24 @@ program
     '-c, --config <path>',
     'custom config file or directory to look for a config file'
   )
+  .action((opts) => commandWrapper(run, opts))
   .parse(process.argv);
 
-// Load config
-const { config, filepath: configPath } = loadConfig(program.config);
-const templateDir = templateDirectory(config.templateDirectory, configPath);
-if (!templateDir) {
-  console.error(`Template directory specified in config not found!`);
-  process.exit(1);
-}
+function run(program) {
+  const { config, filepath: configPath } = loadConfig(program.config);
+  const templateDir = templateDirectory(config.templateDirectory, configPath);
 
-// Find all directories in the template directory
-const templates = readdirSync(templateDir).filter((path) =>
-  isDirectorySync(join(templateDir, path))
-);
-
-if (templates.length > 0) {
-  const templateList = templates.map((t) => '- ' + t).join('\n');
-  console.info(
-    `Found ${templates.length} templates in ${templateDir}:\n${templateList}`
+  // Find all directories in the template directory
+  const templates = readdirSync(templateDir).filter((path) =>
+    isDirectorySync(join(templateDir, path))
   );
-} else {
-  console.info(`No templates exist in ${templateDir}!`);
+
+  if (templates.length > 0) {
+    const templateList = templates.map((t) => '- ' + t).join('\n');
+    console.info(
+      `Found ${templates.length} templates in ${templateDir}:\n${templateList}`
+    );
+  } else {
+    console.info(`No templates exist in ${templateDir}!`);
+  }
 }

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { Volume } = require('memfs');
 const { join } = require('path');
+const TemplateDirNotFoundError = require('../../src/errors/TemplateDirNotFoundError');
 const templateDirectory = require('../../src/util/template-directory');
 
 jest.mock('fs');
@@ -18,9 +19,11 @@ describe('util/template-directory.js', () => {
     expect(templateDirectory(path, process.cwd())).toBe(path);
   });
 
-  it('should return null', () => {
+  it('should throw an error', () => {
     const path = join(process.cwd(), 'templates');
-    expect(templateDirectory(path, process.cwd())).toBeFalsy();
+    expect(templateDirectory.bind(null, path, process.cwd())).toThrow(
+      TemplateDirNotFoundError
+    );
   });
 
   it('should return an absolute path, provided a relative one', () => {

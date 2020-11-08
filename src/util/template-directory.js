@@ -1,5 +1,6 @@
 const { resolve, dirname } = require('path');
 const { isDirectorySync, isFileSync } = require('path-type');
+const TemplateDirNotFoundError = require('../errors/TemplateDirNotFoundError');
 
 /**
  * Returns absolute path for template directory if a relative path is provided,
@@ -13,7 +14,7 @@ module.exports = (templateDirPath, basePath) => {
     templateDirPath
   );
   if (!templateDirPath || !isDirectorySync(templateDir)) {
-    return null;
+    throw new TemplateDirNotFoundError();
   }
 
   return templateDir;
