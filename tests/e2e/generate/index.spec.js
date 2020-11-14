@@ -41,7 +41,7 @@ describe(script, () => {
     };
     const dest = join(__dirname, 'dest/simple');
     execBinary(
-      `simple -d ${dest} --force ${serializePlaceholders(placeholders)}`
+      `-t simple -d ${dest} --force ${serializePlaceholders(placeholders)}`
     );
 
     expect(isFileSync(join(dest, placeholders.p1))).toBeTruthy();
@@ -60,7 +60,7 @@ describe(script, () => {
     };
     const dest = join(__dirname, 'dest/nested');
     execBinary(
-      `nested -d ${dest} --force ${serializePlaceholders(placeholders)}`
+      `-t nested -d ${dest} --force ${serializePlaceholders(placeholders)}`
     );
 
     const fileToRead = join(dest, `${placeholders.foo}/bar/baz/file`);
