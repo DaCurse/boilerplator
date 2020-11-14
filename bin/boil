@@ -17,7 +17,7 @@ program
   .alias('g')
   .command('list', 'lists all templates in template directory')
   .command('config', 'view or change the config')
-  .parse(process.argv);
+  .parse();
 
 // Figure out the full name of the current sub-command if the current command
 // isn't a help command

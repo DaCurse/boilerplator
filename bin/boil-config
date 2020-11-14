@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
-const { Command } = require('commander');
 const { resolve, join } = require('path');
 const { loadConfig } = require('../src/util/config');
 const { writeFileSync } = require('fs');
-const commandWrapper = require('../src/errors/command-wrapper');
+const Command = require('../src/Command');
 
 const program = new Command();
 program
@@ -14,8 +13,8 @@ program
     'set custom directory for the config file or reset it to default',
     (value) => resolve(process.cwd(), value)
   )
-  .action((opts) => commandWrapper(run, opts))
-  .parse(process.argv);
+  .action(run)
+  .parse();
 
 function run({ directory }) {
   // Set a custom config directory or reset it and write changes to .env file
@@ -35,5 +34,5 @@ function run({ directory }) {
   // Print config
   const { config, filepath: configPath } = loadConfig();
   console.info(`Config file from ${configPath}:`);
-  console.info(JSON.stringify(config, null, 2));
+  console.info(config);
 }

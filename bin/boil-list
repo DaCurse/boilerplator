@@ -1,21 +1,17 @@
 #!/usr/bin/env node
 
-const { Command } = require('commander');
 const { readdirSync } = require('fs');
 const { isDirectorySync } = require('path-type');
 const { join } = require('path');
 const templateDirectory = require('../src/util/template-directory');
 const { loadConfig } = require('../src/util/config');
-const commandWrapper = require('../src/errors/command-wrapper');
+const Command = require('../src/Command');
 
 const program = new Command();
-program
-  .usage('[options]')
-  .action((opts) => commandWrapper(run, opts))
-  .parse(process.argv);
+program.usage('[options]').action(run).parse();
 
-function run(program) {
-  const { config, filepath: configPath } = loadConfig(program.config);
+function run(options) {
+  const { config, filepath: configPath } = loadConfig(options.config);
   const templateDir = templateDirectory(config.templateDirectory, configPath);
 
   // Find all directories in the template directory

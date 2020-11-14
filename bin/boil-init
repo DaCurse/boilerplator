@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 
-const { Command } = require('commander');
 const { writeFileSync, mkdirSync } = require('fs');
 const { join, resolve } = require('path');
 const { isFileSync } = require('path-type');
-const commandWrapper = require('../src/errors/command-wrapper');
 const { defaultConfig, defaultFilename } = require('../src/util/config');
 const configDir = require('../src/util/config-dir');
+const Command = require('../src/Command');
 
 const program = new Command();
 program
@@ -17,36 +16,36 @@ program
   .option('-s, --spaces <number>', 'indendation size', 2, (value) =>
     parseInt(value, 10)
   )
-  .action((opts) => commandWrapper(run, opts))
-  .parse(process.argv);
+  .action(run)
+  .parse();
 
-function run(program) {
+function run(options) {
   // Calculate config path
-  const dir = program.destination ? program.destination : configDir();
+  const dir = options.destination ? options.destination : configDir();
   const configPath = join(dir, defaultFilename);
 
   console.log(`Creating default config file...`);
-  if (!program.force && isFileSync(configPath)) {
+  if (!options.force && isFileSync(configPath)) {
     throw new Error(
       `${configPath} already exists! Use --force to overwrite it.`
     );
   }
 
   // Store custom config directory in environment
-  if (program.destination) {
+  if (options.destination) {
     writeFileSync(
       join(process.cwd(), '.env'),
-      `CONFIG_DIR=${program.destination}`
+      `CONFIG_DIR=${options.destination}`
     );
   }
 
   // Create config file
   const config = {
-    templateDirectory: resolve(dir, program.templateDir),
+    templateDirectory: resolve(dir, options.templateDir),
     ...defaultConfig,
   };
-  const content = JSON.stringify(config, null, program.spaces);
   mkdirSync(dir, { recursive: true });
-  writeFileSync(configPath, content);
-  console.info(`Created config file at ${configPath}\n${content}`);
+  writeFileSync(configPath, JSON.stringify(config, null, options.spaces));
+  console.info(`Created config file at ${configPath}`);
+  console.info(config);
 }

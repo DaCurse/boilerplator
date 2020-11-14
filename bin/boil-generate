@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const { Command } = require('commander');
 const { mkdirSync } = require('fs');
 const { resolve, join } = require('path');
 const { sync: rimraf } = require('rimraf');
@@ -11,15 +10,15 @@ const { loadConfig } = require('../src/util/config');
 const templateDirectory = require('../src/util/template-directory');
 const parseArgs = require('../src/util/parse-args');
 const generateProject = require('../src');
-const commandWrapper = require('../src/errors/command-wrapper');
+const Command = require('../src/Command');
 
 const program = new Command();
 program
   .usage('<template> -d <destination> [options] [placeholder1=...,]')
   .requiredOption('-d, --destination <path>', 'destination directory')
   .option('-f, --force', 'overwrite existing directory')
-  .action((opts) => commandWrapper(run, opts))
-  .parse(process.argv);
+  .action(run)
+  .parse();
 
 function run(program) {
   // Start measuring time
