@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { Volume } = require('memfs');
 const { join } = require('path');
-const ConfigNotFoundError = require('../../src/errors/ConfigNotFoundError');
+const ConfigNotFound = require('../../src/errors/ConfigNotFound');
 const {
   loadConfig,
   defaultFilename,
@@ -21,7 +21,7 @@ describe('util/config.js', () => {
   describe('no config file present', () => {
     it('should throw an error', () => {
       fs.use(Volume.fromJSON({}, '/'));
-      expect(loadConfig.bind(null, configDir)).toThrow(ConfigNotFoundError);
+      expect(loadConfig.bind(null, configDir)).toThrow(ConfigNotFound);
     });
   });
 

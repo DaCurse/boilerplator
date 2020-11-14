@@ -1,4 +1,4 @@
-module.exports = class ConfigNotFoundError extends Error {
+module.exports = class ConfigNotFound extends Error {
   constructor(
     message = "Couldn't find config file! Please run 'boil init' to create one."
   ) {

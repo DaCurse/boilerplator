@@ -29,7 +29,7 @@
     "pretty-ms": "^7.0.1",
     "recursive-copy": "^2.0.11",
     "rimraf": "^3.0.2",
-    "simple-git": "^2.21.0",
+    "simple-git": "^2.22.0",
     "tree-node-cli": "^1.4.0"
   },
   "devDependencies": {
