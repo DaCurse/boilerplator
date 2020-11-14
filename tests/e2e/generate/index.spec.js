@@ -5,7 +5,8 @@ const rimraf = require('rimraf');
 const simpleGit = require('simple-git');
 
 const script = 'bin/boil generate';
-const execBinary = global.execBinary.bind(null, script);
+const envPath = join(__dirname, '.env');
+const execBinary = (args) => global.execBinary(script, args, envPath);
 
 /**
  * Serializes `placeholders` into a string for the binary
@@ -39,11 +40,8 @@ describe(script, () => {
       p2: 'bar',
     };
     const dest = join(__dirname, 'dest/simple');
-    const configPath = join(__dirname, 'simple.json');
     execBinary(
-      `simple -d ${dest} --config ${configPath} --force ${serializePlaceholders(
-        placeholders
-      )}`
+      `simple -d ${dest} --force ${serializePlaceholders(placeholders)}`
     );
 
     expect(isFileSync(join(dest, placeholders.p1))).toBeTruthy();
@@ -61,11 +59,8 @@ describe(script, () => {
       qux: '2',
     };
     const dest = join(__dirname, 'dest/nested');
-    const configPath = join(__dirname, 'nested.json');
     execBinary(
-      `nested -d ${dest} --config ${configPath} --force ${serializePlaceholders(
-        placeholders
-      )}`
+      `nested -d ${dest} --force ${serializePlaceholders(placeholders)}`
     );
 
     const fileToRead = join(dest, `${placeholders.foo}/bar/baz/file`);
@@ -73,7 +68,7 @@ describe(script, () => {
     expect(readFileSync(fileToRead, 'utf-8')).toBe(placeholders.qux);
 
     // Test if git repository was created as configured
-    const { gitOptions } = require(configPath);
+    const { gitOptions } = require('./config.json');
     const git = simpleGit();
     git.cwd(dest);
     const commits = await git.log();

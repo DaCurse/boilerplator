@@ -12,11 +12,8 @@ describe(script, () => {
 
   it('should create the config file', () => {
     const templateDir = join(__dirname, 'templates');
-    const envDir = join(__dirname, '.env');
-    execBinary(
-      `-t ${templateDir} dotenv_config_path="${envDir}"`,
-      '-r dotenv/config'
-    );
+    const envPath = join(__dirname, '.env');
+    execBinary(`-t ${templateDir}`, envPath);
 
     expect(isFileSync(configPath)).toBeTruthy();
   });
