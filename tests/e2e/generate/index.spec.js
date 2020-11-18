@@ -6,7 +6,7 @@ const simpleGit = require('simple-git');
 
 const script = 'bin/boil generate';
 const envPath = join(__dirname, '.env');
-const execBinary = (args) => global.execBinary(script, args, envPath);
+const execCommand = (args) => global.execCommand(script, args, envPath);
 
 /**
  * Serializes `placeholders` into a string for the binary
@@ -40,7 +40,7 @@ describe(script, () => {
       p2: 'bar',
     };
     const dest = join(__dirname, 'dest/simple');
-    execBinary(
+    execCommand(
       `-t simple -d ${dest} --force ${serializePlaceholders(placeholders)}`
     );
 
@@ -59,7 +59,7 @@ describe(script, () => {
       qux: '2',
     };
     const dest = join(__dirname, 'dest/nested');
-    execBinary(
+    execCommand(
       `-t nested -d ${dest} --force ${serializePlaceholders(placeholders)}`
     );
 

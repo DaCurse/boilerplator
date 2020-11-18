@@ -2,14 +2,14 @@ const { execSync } = require('child_process');
 const { join } = require('path');
 
 /**
- * Runs a binary with the given args, loads custom dotenv file
- * @param {string} script Binary file name
+ * Runs a command with the given args and loads custom dotenv file
+ * @param {string} cmd Command name
  * @param {string} args Command like arguments
  * @param {string} envPath Path to a testing .env file
  */
-global.execBinary = (script, args, envPath) => {
-  const scriptPath = join(process.cwd(), script);
+global.execCommand = (cmd, args, envPath) => {
+  const cmdPath = join(process.cwd(), cmd);
   return execSync(
-    `node -r dotenv/config ${scriptPath} ${args} dotenv_config_path=${envPath}`
+    `node -r dotenv/config ${cmdPath} ${args} dotenv_config_path=${envPath}`
   );
 };
