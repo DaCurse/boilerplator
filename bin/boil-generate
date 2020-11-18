@@ -29,11 +29,6 @@ function run(options) {
   const { config, filepath: configPath } = loadConfig(options.config);
   const templateDir = templateDirectory(config.templateDirectory, configPath);
 
-  // If template is not present, show help and exit
-  if (options.args.length < 1) {
-    console.info(options.help());
-  }
-
   // Validate destination
   if (!isDirectorySync(options.destination)) {
     mkdirSync(options.destination, { recursive: true });
