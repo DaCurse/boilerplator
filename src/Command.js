@@ -1,6 +1,6 @@
 const commander = require('commander');
 
-module.exports = class Command extends commander.Command {
+class Command extends commander.Command {
   action(fn) {
     return super.action((options) => {
       try {
@@ -10,4 +10,6 @@ module.exports = class Command extends commander.Command {
       }
     });
   }
-};
+}
+
+module.exports = Command;
