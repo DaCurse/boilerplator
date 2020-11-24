@@ -10,7 +10,7 @@ program
   .usage('[options]')
   .option(
     '-d, --directory [path]',
-    'set custom directory for the config file or reset it to default',
+    'set custom directory for the config file or reset it to default if no  value is provided',
     (value) => resolve(process.cwd(), value)
   )
   .action(run)
