@@ -1,0 +1,8 @@
+{
+  "templateDirectory": "./templates",
+  "placeholderRegex": "{{([\\w-_]+)}}",
+  "gitOptions": {
+    "createRepository": true,
+    "initialCommit": "Lorem ipsum dolor sit amet"
+  }
+}

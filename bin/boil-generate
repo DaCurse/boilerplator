@@ -1,0 +1,74 @@
+#!/usr/bin/env node
+
+const { mkdirSync } = require('fs');
+const { resolve, join } = require('path');
+const { sync: rimraf } = require('rimraf');
+const { isDirectorySync } = require('path-type');
+const isRegex = require('is-regex');
+const prettyMilliseconds = require('pretty-ms');
+const { loadConfig } = require('../src/util/config');
+const templateDirectory = require('../src/util/template-directory');
+const parseArgs = require('../src/util/parse-args');
+const generateProject = require('../src');
+const Command = require('../src/Command');
+
+const program = new Command();
+program
+  .usage('-t <template name> -d <destination> [options] [placeholder1=...,]')
+  .requiredOption('-t, --template <template name>', 'template name')
+  .requiredOption('-d, --destination <path>', 'destination directory')
+  .option('-f, --force', 'overwrite existing directory')
+  .action(run)
+  .parse();
+
+function run(options) {
+  // Start measuring time
+  const startTime = Date.now();
+
+  // Loading config and template dir
+  const { config, filepath: configPath } = loadConfig(options.config);
+  const templateDir = templateDirectory(config.templateDirectory, configPath);
+
+  // Validate destination
+  if (!isDirectorySync(options.destination)) {
+    mkdirSync(options.destination, { recursive: true });
+  } else if (options.force) {
+    // Delete contents of destination directory if force mode is on
+    rimraf(resolve(options.destination, '*'));
+  } else {
+    throw new Error(
+      `${options.destination} already exists! Use --force to overwrite the directory.`
+    );
+  }
+
+  // Finding the selected template's directory
+  console.info(`Finding template '${options.template}'...`);
+  const templatePath = join(templateDir, options.template);
+  if (!isDirectorySync(templatePath)) {
+    throw new Error(
+      `Template '${options.template}' doesn't exist in ${templatePath}.`
+    );
+  }
+
+  // Serialize placeholders into a map
+  console.info('Parsing placeholders...');
+  const placeholders = parseArgs(options.args, config.defaultPlaceholders);
+  const placeholderRegex = isRegex(config.placeholderRegex)
+    ? config.placeholderRegex
+    : new RegExp(config.placeholderRegex, 'g');
+
+  // Recursively copy template files, applying placeholders where applicable
+  console.info('Generating project from template...');
+  generateProject(
+    templatePath,
+    options.destination,
+    placeholders,
+    placeholderRegex,
+    config.gitOptions,
+    options.force
+  ).then(
+    () =>
+      console.info(`Done in ${prettyMilliseconds(Date.now() - startTime)}.`),
+    (error) => console.error(`Error while generating project: ${error.message}`)
+  );
+}

@@ -25,15 +25,11 @@ module.exports = async (
   gitOptions = { createRepository: false },
   overwrite = false
 ) => {
-  try {
-    await copy(templatePath, destination, {
-      overwrite,
-      rename: applyPlaceholders.bind(null, placeholders, placeholderRegex),
-      transform: fileTransformer(placeholders, placeholderRegex),
-    });
-  } catch (error) {
-    console.error(`Failed to copy some files: ${error}`);
-  }
+  await copy(templatePath, destination, {
+    overwrite,
+    rename: applyPlaceholders.bind(null, placeholders, placeholderRegex),
+    transform: fileTransformer(placeholders, placeholderRegex),
+  });
 
   // Print directory tree
   console.log(tree(destination));

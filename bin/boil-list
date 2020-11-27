@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+const { readdirSync } = require('fs');
+const { isDirectorySync } = require('path-type');
+const { join } = require('path');
+const templateDirectory = require('../src/util/template-directory');
+const { loadConfig } = require('../src/util/config');
+const Command = require('../src/Command');
+
+const program = new Command();
+program.usage('[options]').action(run).parse();
+
+function run(options) {
+  const { config, filepath: configPath } = loadConfig(options.config);
+  const templateDir = templateDirectory(config.templateDirectory, configPath);
+
+  // Find all directories in the template directory
+  const templates = readdirSync(templateDir).filter((path) =>
+    isDirectorySync(join(templateDir, path))
+  );
+
+  // List templates
+  if (templates.length > 0) {
+    const templateList = templates.map((t) => '- ' + t).join('\n');
+    console.info(
+      `Found ${templates.length} templates in ${templateDir}:\n${templateList}`
+    );
+  } else {
+    console.info(`No templates exist in ${templateDir}!`);
+  }
+}

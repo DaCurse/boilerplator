@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+const { Command } = require('commander');
+const { version, description } = require('../package.json');
+
+// Configuring commander
+const program = new Command();
+const name = 'boil';
+
+program
+  .name(name)
+  .version(version)
+  .description(description)
+  .command('init', 'creates default config file')
+  .alias('i')
+  .command('generate', 'generates a project from a template')
+  .alias('g')
+  .command('list', 'lists all templates in template directory')
+  .command('config', 'view or change the config')
+  .parse();
+
+// Figure out the full name of the current sub-command if the current command
+// isn't a help command
+const isHelp = program.args.some((arg) => ['help', '--help'].includes(arg));
+if (!isHelp) {
+  const currentCommand = program.commands
+    .find(
+      (command) =>
+        command.name() === program.args[0] ||
+        command.aliases().includes(program.args[0])
+    )
+    .name();
+
+  console.info(`${name} ${currentCommand} v${version}`);
+}

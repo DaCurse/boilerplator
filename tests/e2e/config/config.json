@@ -1,0 +1,6 @@
+{
+  "placeholderRegex": "{{([\\w-_]+)}}",
+  "defaultPlaceholders": {},
+  "gitOptions": {},
+  "templateDirectory": "test"
+}

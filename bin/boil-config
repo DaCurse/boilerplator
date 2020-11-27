@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+const { resolve, join } = require('path');
+const { loadConfig } = require('../src/util/config');
+const { writeFileSync } = require('fs');
+const Command = require('../src/Command');
+
+const program = new Command();
+program
+  .usage('[options]')
+  .option(
+    '-d, --directory [path]',
+    'set custom directory for the config file or reset it to default if no  value is provided',
+    (value) => resolve(process.cwd(), value)
+  )
+  .action(run)
+  .parse();
+
+function run({ directory }) {
+  // Set a custom config directory or reset it and write changes to .env file
+  if (directory) {
+    let newEnv;
+    if (typeof directory === 'string') {
+      console.info(`Setting config directory to ${directory}.`);
+      newEnv = `CONFIG_DIR=${directory}`;
+    } else {
+      console.info('Resetting config directory to system default.');
+      newEnv = '';
+    }
+    writeFileSync(join(process.cwd(), '.env'), newEnv);
+    process.exit(0);
+  }
+
+  // Print config
+  const { config, filepath: configPath } = loadConfig();
+  console.info(`Config file from ${configPath}:`);
+  console.info(config);
+}
