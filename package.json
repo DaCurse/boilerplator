@@ -1,6 +1,6 @@
 {
   "name": "boilerplator",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "A CLI tool to dynamically generate projects from user-defined templates.",
   "author": "DaCurse",
   "license": "GPL-3.0",
