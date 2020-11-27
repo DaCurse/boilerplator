@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - lts/*
+cache: yarn
+script:
+  - yarn test
+  - yarn coveralls
+
+deploy:
+  provider: npm
+  email: dacurse0@gmail.com
+  api_key:
+    secure: VsQeeAfXeeBBIUcVMtfDljv3j6G5fo3eGhsmQxeidOPIzNUsAOhF2RULWN4hyfgMuXaHiuNx5kMSRM9HuU+mrkSqzsLKbWzOIJreV0FCRWjtBL/SAs/5giUCdx9WUviYafw3s0qx0ZuQaMHWHGXrGhnV2I4MfehvpjoNGIFzpL9NVx9yGfPS+SZoPgnbQUd7O1G57+3uQ5pcU8lX16qPbRKkDeINcSIEEecWHdTy9mO7nPyFyXYsUbHAoo+9fRxSKbR4NRnZxBiXCiILH0x195VLTTMeLc6JWW3hM8wNDO991TkTTKPOtvX3mIqCB8WzIDWUipgDX/Ba0gISk8YcLHnUmaxmQnjZlbXflybZngobF1roKcgEViZgN6ScqQuQVUIkXDxoFtwQzku/Dwke/hOLjMeRASUIDqLkPi2Em1oqgKsnq9DzzkB19TbTBDMQfCSNd2jiBrtoBHSAYThO7JrzsEDTcH+k6MyKU3I5/W3Js5qrIcDpKhINAb4iuEGCdCeNldBFTIKdrN2hyRBgjMZr4P7Tf2qqino/JM166Sh33rgt73bOnO4FeC63GhJoNz8QK8FG0ko1u42J+z2YYNqq9dmXy1dzL2U7TG+bRCH3r/uVSoYh93DM0bKsXVFuyUwO4SOO0jSE8Ht9n9SZWPQYgnUzZ/cmZ1bsm6xKRgQ=
+  on:
+    tags: true
+    repo: DaCurse/boilerplator
+  skip_cleanup: 'true'

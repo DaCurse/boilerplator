@@ -8,12 +8,12 @@ A CLI tool to dynamically generate projects from user-defined templates.
 [![Coverage Status](https://coveralls.io/repos/github/DaCurse/boilerplator/badge.svg?branch=master)](https://coveralls.io/github/DaCurse/boilerplator?branch=master)
 
 - [boilerplator](#boilerplator)
-  - [Installation](#installation)
-  - [Setup](#setup)
-  - [Config](#config)
-  - [Creating templates](#creating-templates)
-    - [Placeholders](#placeholders)
-  - [Generating templates](#generating-templates)
+    - [Installation](#installation)
+    - [Setup](#setup)
+    - [Config](#config)
+    - [Creating templates](#creating-templates)
+      - [Placeholders](#placeholders)
+    - [Generating templates](#generating-templates)
   - [Command reference](#command-reference)
     - [init](#init)
       - [Default config locations](#default-config-locations)
@@ -285,7 +285,7 @@ Resetting config directory to system default.
 
 ## Motivation
 
-After looking for a tool to easily generate projects from template I create, I haven't found anything that would be simple enough and satisfy my needs, so I decided to write a script to do so. Later, I decided to turn it into a larger maintainable project and publish it, mostly for practice.
+After looking for a tool to easily generate projects from templates I create, I haven't found anything that would be simple enough and satisfy my needs, so I decided to write a script to do so. Later, I decided to turn it into a larger maintainable project and publish it, mostly for practice.
 
 ## Contribution
 
