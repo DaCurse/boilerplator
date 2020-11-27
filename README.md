@@ -2,7 +2,7 @@
 
 A CLI tool to dynamically generate projects from user-defined templates.
 
-![npm](https://img.shields.io/npm/v/boilerplator)
+[![npm](https://img.shields.io/npm/v/boilerplator)](https://www.npmjs.com/package/boilerplator)
 ![npm](https://img.shields.io/npm/dt/boilerplator)
 [![Build Status](https://travis-ci.org/DaCurse/boilerplator.svg?branch=master)](https://travis-ci.org/DaCurse/boilerplator)
 [![Coverage Status](https://coveralls.io/repos/github/DaCurse/boilerplator/badge.svg?branch=master)](https://coveralls.io/github/DaCurse/boilerplator?branch=master)
@@ -289,8 +289,8 @@ After looking for a tool to easily generate projects from templates I create, I 
 
 ## Contribution
 
-Feel free to [submit issues](https://gtihub.com/DaCurse/boilerplator/issues) to report bugs/suggest features and open [pull requests](https://gtihub.com/DaCurse/boilerplator/pulls).
+Feel free to [submit issues](https://github.com/DaCurse/boilerplator/issues) to report bugs/suggest features and open [pull requests](https://github.com/DaCurse/boilerplator/pulls).
 
 ## License
 
-This project is licensed under the [GNU General Public License v3.0](/LICENSE).
+This project is licensed under the [GNU General Public License v3.0](https://github.com/DaCurse/boilerplator/blob/master/LICENSE).
