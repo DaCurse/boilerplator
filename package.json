@@ -1,6 +1,6 @@
 {
   "name": "boilerplator",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Quickly and dynamically generates projects from pre-defined templates.",
   "main": "index.js",
   "author": "DaCurse",
