@@ -3,6 +3,7 @@ node_js:
   - lts/*
 cache: yarn
 script:
+  - yarn lint
   - yarn test
   - yarn coveralls
 deploy:
@@ -11,6 +12,6 @@ deploy:
   api_key:
     secure: tPUmyQJOrgGdm/wtltxzAaf8bOwgIaOM3qX+5T8ABE1cALRpWkvusYT8aGXRo6h7T8oovL9Eo5HEphyMZpPY5F9Vafao5vmKbXTzR8mG35RmkCntDDeFNBECVGxc52Z4Jr6wKP+qYdGlhZc+5xRgOJlfmDeVfbSjrlM6KOvhOuGfa5fxh8St8fU8FQ534RMHLZtITXqWsacgAtPRbkbMKaMcAfmvhY0Ohwca3Z65ighn7B1MPD+qcVo+igANGdJMw/cB8SsHwNF7GwUfkeb/2t7Aq64PF6TobvPTo2AJpwRCSiXuRYDDeTGT6R1XXo94egoV/DeBDtY1m4Navf/Fy3NCBGUuh6MAiCFAPiLge9TuygQvpukrGneQtdGAaP9uLXb87TOHyCqXvXAPkyXuduNA0HeScdZ26krcfzcxZPv0q0qnOyavESGCa4eGtMBxjXHnQpzjY2DGvrO7Nno7idNcweCNBP/lVRuPbRCizAlp3XJ9rY7XvCRjIrvY+6uLRcIILPQ/QGlV0LJjIzJ56yAhj0OoBp3ZqoPPnHAd5DK+zXOcmV8lvKAXn7yBW9bWhQ/8Bc2QNHqYI8uM7MBh85kgdmSW6k6/572qDa9fbNJtjCzjD5rk6bvAy07BpGYakTUl7QL0202T0Vdz1vUNneVWklW8slehtfIS6catOGw=
   on:
-    branch: master
+    tags: true
     repo: DaCurse/boilerplator
   skip_cleanup: 'true'
