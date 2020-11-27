@@ -4,7 +4,7 @@ A CLI tool to dynamically generate projects from user-defined templates.
 
 [![npm](https://img.shields.io/npm/v/boilerplator)](https://www.npmjs.com/package/boilerplator)
 ![npm](https://img.shields.io/npm/dt/boilerplator)
-[![Build Status](https://travis-ci.org/DaCurse/boilerplator.svg?branch=master)](https://travis-ci.org/DaCurse/boilerplator)
+[![Build Status](https://travis-ci.com/DaCurse/boilerplator.svg?branch=master)](https://travis-ci.com/DaCurse/boilerplator)
 [![Coverage Status](https://coveralls.io/repos/github/DaCurse/boilerplator/badge.svg?branch=master)](https://coveralls.io/github/DaCurse/boilerplator?branch=master)
 
 - [boilerplator](#boilerplator)
