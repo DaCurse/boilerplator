@@ -13,7 +13,7 @@ program
   .requiredOption('-t, --template-dir <path>', 'template directory path')
   .option('-d, --destination <path>', 'custom destination for the config file')
   .option('-f, --force', 'overwrite existing config')
-  .option('-s, --spaces <number>', 'indendation size', 2, (value) =>
+  .option('-s, --spaces <number>', 'indentation size', 2, (value) =>
     parseInt(value, 10)
   )
   .action(run)

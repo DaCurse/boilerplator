@@ -58,7 +58,7 @@ function run(options) {
     : new RegExp(config.placeholderRegex, 'g');
 
   // Recursively copy template files, applying placeholders where applicable
-  console.info('Genearing project from template...');
+  console.info('Generating project from template...');
   generateProject(
     templatePath,
     options.destination,

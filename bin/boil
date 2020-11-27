@@ -13,7 +13,7 @@ program
   .description(description)
   .command('init', 'creates default config file')
   .alias('i')
-  .command('generate', 'generates a project from a a template')
+  .command('generate', 'generates a project from a template')
   .alias('g')
   .command('list', 'lists all templates in template directory')
   .command('config', 'view or change the config')
