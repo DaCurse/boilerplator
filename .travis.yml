@@ -3,6 +3,7 @@ node_js:
   - lts/*
 cache: yarn
 script:
+  - yarn lint
   - yarn test
   - yarn coveralls
 deploy:
