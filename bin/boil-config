@@ -4,6 +4,7 @@ const { resolve, join } = require('path');
 const { loadConfig } = require('../src/util/config');
 const { writeFileSync } = require('fs');
 const Command = require('../src/Command');
+const configDir = require('../src/util/config-dir');
 
 const program = new Command();
 program
@@ -24,7 +25,7 @@ function run({ directory }) {
       console.info(`Setting config directory to ${directory}.`);
       newEnv = `CONFIG_DIR=${directory}`;
     } else {
-      console.info('Resetting config directory to system default.');
+      console.info(`Resetting config directory to default: ${configDir()}.`);
       newEnv = '';
     }
     writeFileSync(join(process.cwd(), '.env'), newEnv);
